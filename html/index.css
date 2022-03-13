@@ -1,0 +1,33 @@
+body {
+    width: 100vw;
+    max-height: 100vh;
+    background-color: antiquewhite;
+}
+main{
+    width: 80%;
+    margin: auto;
+}
+p {
+    line-height: 16px;
+    text-align: center;
+}
+*{
+    font-family: 'Ubuntu', sans-serif;
+}
+
+.greeting {
+    width: 100%;
+    text-align: center;
+    margin-top: 10rem;
+}
+
+.section-divider {
+   margin-top: 5rem;
+}
+.section-divider > img {
+    display:block;
+    width: 80%;
+    height: auto;
+    margin: auto;
+    border: black 1px solid;
+}
