@@ -1,0 +1,16 @@
+nav {
+    height:2rem;
+    width: 100%;
+    position: fixed;
+    top: 0;
+    background-color: antiquewhite;
+}
+.nav-button {
+    height: 2rem;
+    min-width: 4rem;
+   background-color: transparent;
+    border: none;
+}
+.nav-button:hover {
+    border-bottom: solid 2px blue;
+}

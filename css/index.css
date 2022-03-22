@@ -27,7 +27,10 @@ p {
 .section-divider > img {
     display:block;
     width: 80%;
+    max-width: 450px;
     height: auto;
     margin: auto;
     border: black 1px solid;
 }
+
+
