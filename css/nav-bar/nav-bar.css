@@ -6,10 +6,16 @@ nav {
     background-color: antiquewhite;
 }
 .nav-button {
-    height: 2rem;
-    min-width: 4rem;
-   background-color: transparent;
+    color: initial;
+    background-color: transparent;
     border: none;
+    padding: 10px 34px;
+    text-align: center;
+    display: inline-block;
+    font-size: 16px;
+    margin: 4px 2px;
+    cursor: pointer;
+    text-decoration: none;
 }
 .nav-button:hover {
     border-bottom: solid 2px blue;

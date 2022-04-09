@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Ubuntu:wght@500&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/css/index.css">
+    <link rel="stylesheet" href="/css/nav-bar/nav-bar.css">
+    <link rel="stylesheet" href="/css/register/register.css">
+
+    <script src="/js/index.js"></script>
+    <script src="/js/register/register.js"></script>
+    <title>Marken Pizza Shop - Registration</title>
+</head>
+<body>
+<header></header>
+<main>
+    <h1>Register Account</h1>
+    <h2>Register Account to Save Order Information</h2>
+    <form>
+        <label>
+            First Name:
+            <input type="text" class="first-name">
+        </label>
+        <label>
+            Last Name:
+            <input type="text" class="last-name">
+        </label>
+        <label>
+           User Name:
+            <input type="text" class="user-name">
+        </label>
+        <label>
+            Password:
+            <input type="password" class="password">
+        </label>
+
+        <p class="message hidden"></p>
+
+        <section class="button-container">
+            <button type="button" onclick="controller.addUser();">Register</button>
+        </section>
+    </form>
+</main>
+<footer></footer>
+</body>
+</html>
