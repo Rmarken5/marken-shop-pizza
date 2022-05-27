@@ -31,10 +31,11 @@ window.addEventListener('load', () => {
 
 
         const init = () => {
-            document.querySelector('.first-name').addEventListener('keyup', adjustForm);
-            document.querySelector('.last-name').addEventListener('keyup', adjustForm);
-            document.querySelector('.user-name').addEventListener('keyup', adjustForm);
-            document.querySelector('.password').addEventListener('keyup', adjustForm);
+            document.querySelector('.first-name').addEventListener('keyup', errorDisplay);
+            document.querySelector('.last-name').addEventListener('keyup', errorDisplay);
+            document.querySelector('.user-name').addEventListener('keyup', errorDisplay);
+            document.querySelector('.password').addEventListener('keyup', errorDisplay);
+            registerButton.addEventListener('click', addUser);
         };
 
         const adjustForm = (keyUpEvent) => {
@@ -46,6 +47,18 @@ window.addEventListener('load', () => {
                 registerButton.disabled = true;
             }
         };
+
+        const errorDisplay = (keyUpEvent) => {
+            const errorFieldClass = keyUpEvent.target.className + '-message';
+            const errorField = document.querySelector('.'+errorFieldClass);
+            if (keyUpEvent.target.value) {
+                errorField.classList.add('display-hidden');
+            } else {
+                errorField.innerHTML = '* Required Field';
+                errorField.classList.remove('display-hidden');
+            }
+            adjustForm(keyUpEvent);
+        }
 
 
 
@@ -102,4 +115,5 @@ window.addEventListener('load', () => {
     })();
 
     controller.init();
+
 });

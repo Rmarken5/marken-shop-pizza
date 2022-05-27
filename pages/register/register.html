@@ -22,24 +22,28 @@
         <label>
             <span class="label-size">First Name:</span>
             <input type="text" class="first-name">
+            <p class="error first-name-message display-hidden"></p>
         </label>
         <label>
             <span class="label-size">Last Name:</span>
             <input type="text" class="last-name">
+            <p class="error last-name-message display-hidden"></p>
         </label>
         <label>
             <span class="label-size">User Name:</span>
             <input type="text" class="user-name">
+            <p class="error user-name-message display-hidden"></p>
         </label>
         <label>
             <span class="label-size">Password:</span>
             <input type="password" class="password">
+            <p class="error password-message display-hidden"></p>
         </label>
 
         <p class="message hidden"></p>
 
         <section class="button-container">
-            <button type="button" class="register-button" disabled onclick="controller.addUser();">Register</button>
+            <button type="button" class="register-button" disabled >Register</button>
         </section>
     </form>
 </main>
