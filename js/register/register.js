@@ -1,5 +1,10 @@
 window.addEventListener('load', () => {
 
+    uiController.init();
+});
+
+const businessLogic = (() => {
+
     function User(fname, lName, uName, pass) {
         this.firstName = fname;
         this.lastName = lName;
@@ -25,95 +30,105 @@ window.addEventListener('load', () => {
         }
     }
 
-    const controller = (() => {
-        const users = [];
-        const registerButton = document.querySelector('.register-button');
+
+    return {
+        User
+    }
 
 
-        const init = () => {
-            document.querySelector('.first-name').addEventListener('keyup', errorDisplay);
-            document.querySelector('.last-name').addEventListener('keyup', errorDisplay);
-            document.querySelector('.user-name').addEventListener('keyup', errorDisplay);
-            document.querySelector('.password').addEventListener('keyup', errorDisplay);
-            registerButton.addEventListener('click', addUser);
-        };
+})();
 
-        const adjustForm = (keyUpEvent) => {
-            if (isFormValid()){
-                console.log('not');
-                registerButton.disabled = false;
-            } else {
-                console.log('yet');
-                registerButton.disabled = true;
-            }
-        };
 
-        const errorDisplay = (keyUpEvent) => {
-            const errorFieldClass = keyUpEvent.target.className + '-message';
-            const errorField = document.querySelector('.'+errorFieldClass);
-            if (keyUpEvent.target.value) {
-                errorField.classList.add('display-hidden');
-            } else {
-                errorField.innerHTML = '* Required Field';
-                errorField.classList.remove('display-hidden');
-            }
-            adjustForm(keyUpEvent);
+
+const uiController = (() => {
+    const users = [];
+    const registerButton = document.querySelector('.register-button');
+
+
+    const init = () => {
+        document.querySelector('.first-name').addEventListener('keyup', errorDisplay);
+        document.querySelector('.last-name').addEventListener('keyup', errorDisplay);
+        document.querySelector('.user-name').addEventListener('keyup', errorDisplay);
+        document.querySelector('.password').addEventListener('keyup', errorDisplay);
+        registerButton.addEventListener('click', addUser);
+    };
+
+    const adjustForm = (keyUpEvent) => {
+        if (isFormValid()){
+            console.log('not');
+            registerButton.disabled = false;
+        } else {
+            console.log('yet');
+            registerButton.disabled = true;
         }
+    };
 
-
-
-        const doesUserExist = (users, user) => {
-            return users.some(u => user.userName = u.userName);
+    const errorDisplay = (keyUpEvent) => {
+        const errorFieldClass = keyUpEvent.target.className + '-message';
+        const errorField = document.querySelector('.'+errorFieldClass);
+        if (keyUpEvent.target.value) {
+            errorField.classList.add('display-hidden');
+        } else {
+            errorField.innerHTML = '* Required Field';
+            errorField.classList.remove('display-hidden');
         }
+        adjustForm(keyUpEvent);
+    }
 
-        const isFormValid = () => {
-            const fname = document.querySelector('.first-name').value;
-            const lname = document.querySelector('.last-name').value;
-            const userName = document.querySelector('.user-name').value;
-            const password = document.querySelector('.password').value;
 
-            return fname && lname && userName && password;
+
+    const doesUserExist = (users, user) => {
+        return users.some(u => user.userName = u.userName);
+    }
+
+    const isFormValid = () => {
+        const fname = document.querySelector('.first-name').value;
+        const lname = document.querySelector('.last-name').value;
+        const userName = document.querySelector('.user-name').value;
+        const password = document.querySelector('.password').value;
+
+        return fname && lname && userName && password;
+    }
+
+
+    const addUser = () => {
+        console.log("add user called");
+        const fname = document.querySelector('.first-name').value;
+        const lname = document.querySelector('.last-name').value;
+        const userName = document.querySelector('.user-name').value;
+        const password = document.querySelector('.password').value;
+
+        const user = new User(fname, lname, userName, password);
+        if (doesUserExist(users, user)) {
+            showErrorMessage("User already exists.")
+        } else {
+            users.push(user);
+            showSuccessMessage(`User ${user.userName} was added successfully`)
         }
+    }
 
+    const getAllUsers = () => {
+        return users
+    }
+    const showErrorMessage = message => {
+        const errorParagraph = document.querySelector('.message');
+        errorParagraph.innerHTML = message;
+        errorParagraph.classList.add('error');
+        errorParagraph.classList.remove('success', 'hidden');
+    }
+    const showSuccessMessage = message => {
+        const errorParagraph = document.querySelector('.message');
+        errorParagraph.innerHTML = message;
+        errorParagraph.classList.add('success');
+        errorParagraph.classList.remove('error', 'hidden');
+    }
+    return {
+        init,
+        addUser,
+        getAllUsers
+    }
+})();
 
-        const addUser = () => {
-            console.log("add user called");
-            const fname = document.querySelector('.first-name').value;
-            const lname = document.querySelector('.last-name').value;
-            const userName = document.querySelector('.user-name').value;
-            const password = document.querySelector('.password').value;
+const page = ((uiController, businessLogic) => {
 
-            const user = new User(fname, lname, userName, password);
-            if (doesUserExist(users, user)) {
-                showErrorMessage("User already exists.")
-            } else {
-                users.push(user);
-                showSuccessMessage(`User ${user.userName} was added successfully`)
-            }
-        }
-
-        const getAllUsers = () => {
-            return users
-        }
-        const showErrorMessage = message => {
-            const errorParagraph = document.querySelector('.message');
-            errorParagraph.innerHTML = message;
-            errorParagraph.classList.add('error');
-            errorParagraph.classList.remove('success', 'hidden');
-        }
-        const showSuccessMessage = message => {
-            const errorParagraph = document.querySelector('.message');
-            errorParagraph.innerHTML = message;
-            errorParagraph.classList.add('success');
-            errorParagraph.classList.remove('error', 'hidden');
-        }
-        return {
-            init,
-            addUser,
-            getAllUsers
-        }
-    })();
-
-    controller.init();
-
-});
+})(uiController, businessLogic);
