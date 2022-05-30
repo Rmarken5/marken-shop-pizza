@@ -5,6 +5,11 @@ label {
     text-align: center;
 }
 
+.label-size {
+    display: inline-block;
+    width: 120px;
+}
+
 .button-container {
     display: block;
     width: 50%;
@@ -24,7 +29,4 @@ label {
     display: none;
 }
 
-.label-size {
-    display: inline-block;
-    width: 120px;
-}
+

@@ -5,20 +5,8 @@ window.addEventListener('DOMContentLoaded', () => {
 const businessLogic = (() => {
     const users = [];
 
-    const createUser = ({fname, lname, userName, password}) => {
-        return new User(fname, lname, userName, password);
-    }
-
-    const addUser = (user) => {
-        return users.push(user);
-    }
-
-    const doesUserExist = (user) => {
-        return users.some(u => user.userName = u.userName);
-    }
-
-    function User(fname, lName, uName, pass) {
-        this.firstName = fname;
+    function User(fName, lName, uName, pass) {
+        this.firstName = fName;
         this.lastName = lName;
         this.userName = uName;
         this.password = pass;
@@ -42,10 +30,27 @@ const businessLogic = (() => {
         }
     }
 
+    const createUser = ({fname, lname, userName, password}) => {
+        return new User(fname, lname, userName, password);
+    }
+
+    const addUser = (user) => {
+        return users.push(user);
+    }
+
+    const doesUserExist = (user) => {
+        return users.some(u => user.userName = u.userName);
+    }
+
+    const isFormValid = ({fname, lname, userName, password}) =>  {
+        return fname && lname && userName && password;
+    }
+
     return {
         addUser,
         createUser,
-        doesUserExist
+        doesUserExist,
+        isFormValid
     }
 })();
 
@@ -64,8 +69,7 @@ const uiController = (() => {
 
     const addEventListenerToButton = (event, fn) => {
         registerButton.addEventListener(event, fn);
-    };
-
+    }
     const addEventListenersToFName = (event, fn) => {
         firstName.addEventListener(event, fn);
     }
@@ -78,10 +82,9 @@ const uiController = (() => {
     const addEventListenersToPassword = (event, fn) => {
         password.addEventListener(event, fn);
     }
-
-    const adjustForm = (keyUpEvent) => {
-        registerButton.disabled = !isFormValid();
-    };
+    const toggleDisableOnRegistration = (isFormValid) => {
+        registerButton.disabled = !isFormValid;
+    }
 
     const removeErrorField = (keyUpEvent) => {
         const errorFieldClass = keyUpEvent.target.className + '-message';
@@ -95,27 +98,12 @@ const uiController = (() => {
         errorField.classList.remove('hidden');
     }
 
-
-    const isFormValid = () => {
-        const fname = document.querySelector('.first-name').value;
-        const lname = document.querySelector('.last-name').value;
-        const userName = document.querySelector('.user-name').value;
-        const password = document.querySelector('.password').value;
-
-        return fname && lname && userName && password;
-    }
-
     const getUserFieldValues = () => {
-        const fname = document.querySelector('.first-name').value;
-        const lname = document.querySelector('.last-name').value;
-        const userName = document.querySelector('.user-name').value;
-        const password = document.querySelector('.password').value;
-
         return {
-            fname,
-            lname,
-            userName,
-            password
+            fname: firstName.value,
+            lname: lastName.value,
+            userName: userName.value,
+            password: password.value,
         }
     }
 
@@ -145,7 +133,7 @@ const uiController = (() => {
         showSuccessMessage,
         removeErrorField,
         showErrorField,
-        adjustForm
+        toggleDisableOnRegistration
     }
 })();
 
@@ -153,14 +141,18 @@ const page = ((uiController, businessLogic) => {
     const init = () => {
         uiController.init();
         const keyUpEventHandler = (keyUpEvent) => {
-            console.log('called: ', keyUpEvent);
             if (keyUpEvent.target.value) {
                 uiController.removeErrorField(keyUpEvent);
             } else {
                 uiController.showErrorField(keyUpEvent);
             }
-            uiController.adjustForm(keyUpEvent);
+            uiController.toggleDisableOnRegistration(businessLogic.isFormValid(uiController.getUserFieldValues()));
         }
+        uiController.addEventListenersToFName('keyup', keyUpEventHandler);
+        uiController.addEventListenersToLName('keyup', keyUpEventHandler);
+        uiController.addEventListenersToUserName('keyup', keyUpEventHandler);
+        uiController.addEventListenersToPassword('keyup', keyUpEventHandler);
+
         uiController.addEventListenerToButton('click', () => {
             const user = businessLogic.createUser(uiController.getUserFieldValues());
             if (businessLogic.doesUserExist(user)) {
@@ -170,10 +162,6 @@ const page = ((uiController, businessLogic) => {
                 uiController.showSuccessMessage('User successfully registered');
             }
         });
-        uiController.addEventListenersToFName('keyup', keyUpEventHandler);
-        uiController.addEventListenersToLName('keyup', keyUpEventHandler);
-        uiController.addEventListenersToUserName('keyup', keyUpEventHandler);
-        uiController.addEventListenersToPassword('keyup', keyUpEventHandler);
     }
     return {
         init
